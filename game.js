@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return cells.every(cell => cell !== null);
     }
 
-    createBoard();
 
     window.startGame = startGame; // Make startGame accessible globally
 });
