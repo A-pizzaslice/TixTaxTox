@@ -1,0 +1,23 @@
+/* ... other styles ... */
+
+#playerSetup {
+    margin-bottom: 20px;
+}
+
+#playerSetup input[type="text"] {
+    padding: 10px;
+    margin: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#playerSetup button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Add styles for hidden class to hide elements */
+.hidden {
+    display: none;
+}
