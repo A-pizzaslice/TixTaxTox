@@ -42,22 +42,7 @@ body {
     cursor: pointer;
 }
 
+/* Add styles for hidden class to hide elements */
 .hidden {
     display: none;
-}
-
-#player1Name,
-#player2Name {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-#player1Name.active,
-#player2Name.active {
-    color: white;
-    background-color: #007bff; /* Bootstrap primary color for reference */
-    padding: 5px;
-    border-radius: 5px;
 }
