@@ -43,10 +43,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         cells[index] = currentPlayer;
-        this.textContent = currentPlayer;
+    
+        // Create an img element and set the source based on the current player
+        let img = document.createElement('img');
+        img.src = currentPlayer === 'X' ? 'yash.jpeg' : 'pritsy.jpeg';
+        img.alt = currentPlayer;
+        img.classList.add('player-img'); // Class to style the image
+    
+        // Append the image to the cell instead of text
+        this.innerHTML = ''; // Clear the cell
+        this.appendChild(img); // Add the new image
+    
         let winner = checkWinner();
         let isDraw = checkDraw();
-
+    
         if (winner || isDraw) {
             setTimeout(() => {
                 if (winner) {
