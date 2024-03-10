@@ -41,7 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("It's a draw!");
             gameActive = false;
         }
+        updatePlayAgainButton();
     }
+
+    function updatePlayAgainButton() {
+        const playAgainButton = document.getElementById('playAgain');
+        playAgainButton.classList.remove('hidden');
+    }
+
 
     function checkWinner() {
         const winningCombinations = [
@@ -58,3 +65,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const [a, b, c] = combination;
             if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
                 return true
+
+    function checkDraw() {
+       // Check if all cells are filled
+    const isBoardFull = cells.every(cell => cell !== null);
+    
+    // If all cells are filled and there's no winner, then it's a draw
+    return isBoardFull && !checkWinner();
+}
+
+document.getElementById('startGame').addEventListener('click', function() {
+        playerName1 = document.getElementById('player1').value || 'Player 1';
+        playerName2 = document.getElementById('player2').value || 'Player 2';
+        document.getElementById('player1Name').textContent = playerName1;
+        document.getElementById('player2Name').textContent = playerName2;
+        document.getElementById('
