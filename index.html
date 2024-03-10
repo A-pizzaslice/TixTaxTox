@@ -12,6 +12,10 @@
         <input type="text" id="player2" placeholder="Player 2 Name">
         <button onclick="startGame()">Start Game</button>
     </div>
+    <div id="playerInfo" style="display:none;"> <!-- Added player info display -->
+        <span id="player1Name"></span> vs <span id="player2Name"></span>
+        <div>Current Turn: <span id="currentPlayer"></span></div>
+    </div>
     <div id="gameBoard"></div>
     <button onclick="location.reload();" style="display:none;" id="playAgain">Play Again</button>
     <script src="game.js"></script>
