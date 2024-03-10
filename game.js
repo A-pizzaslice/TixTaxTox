@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let playerName2 = '';
 
     function createBoard() {
-    for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < 9; i++) {
             let cell = document.createElement('div');
             cell.classList.add('game-cell');
             cell.dataset.index = i;
@@ -16,46 +16,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function startGame() {
-        playerName1 = document.getElementById('player1').value || 'Player 1';
-        playerName2 = document.getElementById('player2').value || 'Player 2';
-        // Display player names on top
-        document.getElementById('player1Name').textContent = playerName1;
-        document.getElementById('player2Name').textContent = playerName2;
-        // Highlight the current player
-        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
-        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
-        document.getElementById('playerSetup').classList.add('hidden'); // Hide setup
-        createBoard();
-    }
-
     function cellClicked() {
-    const index = this.dataset.index;
+        const index = this.dataset.index;
         if (cells[index] || !gameActive) {
             return;
         }
         cells[index] = currentPlayer;
         this.textContent = currentPlayer;
-        if (checkWinner()) {
-            alert(\${currentPlayer} wins!`);
-            gameActive = false;
-            return;
-        }
-        if (checkDraw()) {
-            alert("It's a draw!");
-            gameActive = false;
-            return;
-        }
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        checkGameStatus();
+        switchPlayer();
     }
 
-        // Toggle highlight between players
+    function switchPlayer() {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
         document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
     }
 
+    function checkGameStatus() {
+        if (checkWinner()) {
+            alert(`${currentPlayer} wins!`);
+            gameActive = false;
+        } else if (checkDraw()) {
+            alert("It's a draw!");
+            gameActive = false;
+        }
+    }
+
     function checkWinner() {
-    const winningCombinations = [
+        const winningCombinations = [
             [0, 1, 2],
             [3, 4, 5],
             [6, 7, 8],
@@ -68,17 +57,4 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-                return true;
-            }
-        }
-        return false;
-    }
-    }
-
-    function checkDraw() {
-      return cells.every(cell => cell !== null);
-    }
-    }
-
-    window.startGame = startGame; // Make startGame accessible globally
-});
+                return true
