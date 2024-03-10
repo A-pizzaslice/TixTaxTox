@@ -16,6 +16,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+     function startGame() {
+        playerName1 = document.getElementById('player1').value || 'Player 1';
+        playerName2 = document.getElementById('player2').value || 'Player 2';
+        // Display player names on top
+        document.getElementById('player1Name').textContent = playerName1;
+        document.getElementById('player2Name').textContent = playerName2;
+        // Highlight the current player
+        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
+        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
+        document.getElementById('playerSetup').classList.add('hidden'); // Hide setup
+        createBoard();
+    }
+
+
     function cellClicked() {
         const index = this.dataset.index;
         if (cells[index] || !gameActive) {
