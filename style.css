@@ -29,10 +29,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
     cursor: pointer;
     border: 1px solid #ffffff; /* optional: white border for each cell */
 }
+
+/* New class for player images */
+.player-img {
+    max-width: 100%;  /* Ensure the image does not exceed the cell width */
+    max-height: 100%; /* Ensure the image does not exceed the cell height */
+    object-fit: contain; /* The image will be scaled to maintain its aspect ratio while fitting within the cell */
+}
+
 
 #playerSetup, #playerInfo {
     margin-bottom: 10px;
