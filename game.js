@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let playerName1 = '';
     let playerName2 = '';
 
-    // ... other functions ...
-
     function createBoard() {
         for (let i = 0; i < 9; i++) {
             let cell = document.createElement('div');
@@ -21,8 +19,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function startGame() {
         playerName1 = document.getElementById('player1').value || 'Player 1';
         playerName2 = document.getElementById('player2').value || 'Player 2';
-        document.getElementById('playerSetup').classList.add('hidden'); // Hide setup
+        document.getElementById('playerSetup').style.display = 'none'; // Hide setup
+        document.getElementById('playerInfo').style.display = 'block'; // Show player info
+        updatePlayerNames(); // Update and display player names
+        updateCurrentPlayer(playerName1); // Initial currentPlayer is player1
         createBoard();
+    }
+
+    function updatePlayerNames() {
+        document.getElementById('player1Name').textContent = playerName1;
+        document.getElementById('player2Name').textContent = playerName2;
+    }
+
+    function updateCurrentPlayer(playerName) {
+        document.getElementById('currentPlayer').textContent = playerName;
+        document.getElementById('player1Name').classList.toggle('highlight', playerName === playerName1);
+        document.getElementById('player2Name').classList.toggle('highlight', playerName === playerName2);
     }
 
     function cellClicked() {
@@ -45,10 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('playAgain').style.display = 'block'; // Show play again button
                 gameActive = false;
             }, 10); // Short delay before alert
+        } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            updateCurrentPlayer(currentPlayer === 'X' ? playerName1 : playerName2); // Update current player display
         }
-
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     }
+
 
     // ... other functions ...
     function checkWinner() {
