@@ -10,7 +10,7 @@
     <div id="playerSetup">
         <input type="text" id="player1" placeholder="Player 1 Name">
         <input type="text" id="player2" placeholder="Player 2 Name">
-        <button onclick="startGame()">Start Game</button>
+        <button id="startGame">Start Game</button> <!-- Removed inline onclick event -->
     </div>
     <div id="playerInfo" style="display:none;">
         <span id="player1Name"></span> vs <span id="player2Name"></span>
@@ -27,7 +27,5 @@
     <script src="game.js"></script>
 
     <audio id="winAudio" src="win-music.mp3"></audio>
-
-
 </body>
 </html>
