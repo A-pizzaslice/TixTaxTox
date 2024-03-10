@@ -44,37 +44,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         cells[index] = currentPlayer;
     
-        // Create an img element and set the source based on the current player
         let img = document.createElement('img');
         img.src = currentPlayer === 'X' ? 'yash.jpeg' : 'pritsy.jpeg';
         img.alt = currentPlayer;
-        img.classList.add('player-img'); // Class to style the image
+        img.classList.add('player-img');
     
-        // Append the image to the cell instead of text
-        this.innerHTML = ''; // Clear the cell
-        this.appendChild(img); // Add the new image
+        this.innerHTML = '';
+        this.appendChild(img);
     
-        let winner = checkWinner();
+        let winnerCombination = checkWinner();
         let isDraw = checkDraw();
     
-        if (winner || isDraw) {
+        if (winnerCombination || isDraw) {
             setTimeout(() => {
-                if (winner) {
-                    alert(`${currentPlayer === 'X' ? playerName1 : playerName2} wins!`);
+                if (winnerCombination) {
+                    const playerName = currentPlayer === 'X' ? playerName1 : playerName2;
+                    document.getElementById('winMessage').textContent = `${playerName} Wins!`;
+                    document.getElementById('winModal').style.display = 'block';
+    
+                    winnerCombination.forEach(index => {
+                        const winningCell = document.querySelector(`.game-cell[data-index='${index}']`);
+                        winningCell.classList.add('highlight-win');
+                    });
                 } else if (isDraw) {
                     alert("It's a draw!");
                 }
-                document.getElementById('playAgain').style.display = 'block'; // Show play again button
+                document.getElementById('playAgain').style.display = 'block';
                 gameActive = false;
-            }, 10); // Short delay before alert
+            }, 10);
         } else {
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            updateCurrentPlayer(currentPlayer === 'X' ? playerName1 : playerName2); // Update current player display
+            updateCurrentPlayer(currentPlayer === 'X' ? playerName1 : playerName2);
         }
     }
 
-
-    // ... other functions ...
     function checkWinner() {
         const winningCombinations = [
             [0, 1, 2],
@@ -89,16 +92,24 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-                return true;
+                return combination;
             }
         }
-        return false;
+        return null;
     }
 
     function checkDraw() {
         return cells.every(cell => cell !== null);
     }
 
+    window.startGame = startGame;
 
-    window.startGame = startGame; // Make startGame accessible globally
+    // Close modal functionality
+    const closeButton = document.querySelector('.close');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            document.getElementById('winModal').style.display = 'none';
+            // Optionally reset the game here if needed
+        });
+    }
 });
