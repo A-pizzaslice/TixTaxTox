@@ -46,3 +46,19 @@ body {
 .hidden {
     display: none;
 }
+
+/* Additional styles for player names and highlighting */
+#player1Name,
+#player2Name {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#player1Name.active,
+#player2Name.active {
+    background-color: yellow; /* Change the highlight color as desired */
+    padding: 5px;
+    border-radius: 5px;
+}
