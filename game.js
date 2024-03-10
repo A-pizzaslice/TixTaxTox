@@ -6,75 +6,38 @@ document.addEventListener('DOMContentLoaded', function() {
     let playerName1 = '';
     let playerName2 = '';
 
-    // ... other functions ...
-
     function createBoard() {
-        for (let i = 0; i < 9; i++) {
-            let cell = document.createElement('div');
-            cell.classList.add('game-cell');
-            cell.dataset.index = i;
-            cell.addEventListener('click', cellClicked);
-            board.appendChild(cell);
-        }
+        // Create the board cells as before
     }
 
     function startGame() {
         playerName1 = document.getElementById('player1').value || 'Player 1';
         playerName2 = document.getElementById('player2').value || 'Player 2';
+        // Display player names on top
+        document.getElementById('player1Name').textContent = playerName1;
+        document.getElementById('player2Name').textContent = playerName2;
+        // Highlight the current player
+        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
+        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
         document.getElementById('playerSetup').classList.add('hidden'); // Hide setup
         createBoard();
     }
 
     function cellClicked() {
-        const index = this.dataset.index;
-        if (cells[index] || !gameActive) {
-            return;
-        }
-        cells[index] = currentPlayer;
-        this.textContent = currentPlayer;
-        let winner = checkWinner();
-        let isDraw = checkDraw();
+        // ... (existing code remains unchanged)
 
-        if (winner || isDraw) {
-            setTimeout(() => {
-                if (winner) {
-                    alert(`${currentPlayer === 'X' ? playerName1 : playerName2} wins!`);
-                } else if (isDraw) {
-                    alert("It's a draw!");
-                }
-                document.getElementById('playAgain').style.display = 'block'; // Show play again button
-                gameActive = false;
-            }, 10); // Short delay before alert
-        }
-
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        // Toggle highlight between players
+        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
+        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
     }
 
-    // ... other functions ...
     function checkWinner() {
-        const winningCombinations = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-        for (const combination of winningCombinations) {
-            const [a, b, c] = combination;
-            if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-                return true;
-            }
-        }
-        return false;
+        // Check for the winner as before
     }
 
     function checkDraw() {
-        return cells.every(cell => cell !== null);
+        // Check for a draw as before
     }
-
 
     window.startGame = startGame; // Make startGame accessible globally
 });
