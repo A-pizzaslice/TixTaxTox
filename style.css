@@ -8,6 +8,11 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center; /* Center the text inside the elements */
+    background-image: url('city.jpeg'); /* Replace with your image filename and extension */
+    background-size: cover; /* Cover the entire screen */
+    background-position: center; /* Center the image in the page */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    /* ... any other styles ... */
 }
 
 #gameBoard {
@@ -20,12 +25,13 @@ body {
 .game-cell {
     width: 100px;
     height: 100px;
-    background-color: #f0f0f0;
+    background-color: rgba(240, 240, 240, 0.5); /* semi-transparent white */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2em;
     cursor: pointer;
+    border: 1px solid #ffffff; /* optional: white border for each cell */
 }
 
 #playerSetup, #playerInfo {
