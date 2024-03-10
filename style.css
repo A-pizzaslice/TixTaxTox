@@ -90,3 +90,57 @@ h1 {
     font-weight: normal;
     font-size: 1.2em; /* Slightly smaller font size for the current turn if desired */
 }
+
+/* Highlight Winning Cells */
+.highlight-win {
+    background-color: #90ee90; /* Light green; adjust as needed */
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background with higher opacity */
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #acbfe6; /* Slightly off-white for the modal content */
+    padding: 40px;
+    border-radius: 10px; /* Rounded corners */
+    border: 3px solid #c9bdbd; /* Light grey border */
+    width: auto; /* Width based on content */
+    max-width: 80%; /* Max width to ensure it doesn't get too wide */
+    text-align: center; /* Center the text inside the modal */
+}
+
+.close {
+    color: #333;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Larger text for win message */
+#winMessage {
+    font-size: 2em;
+    color: #333; /* Dark text color for readability */
+    margin: 0; /* Remove default margins */
+}
+
