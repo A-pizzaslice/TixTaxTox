@@ -75,8 +75,28 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 document.getElementById('startGame').addEventListener('click', function() {
-        playerName1 = document.getElementById('player1').value || 'Player 1';
-        playerName2 = document.getElementById('player2').value || 'Player 2';
-        document.getElementById('player1Name').textContent = playerName1;
-        document.getElementById('player2Name').textContent = playerName2;
-        document.getElementById('
+    playerName1 = document.getElementById('player1').value || 'Player 1';
+    playerName2 = document.getElementById('player2').value || 'Player 2';
+    
+    // Update display with player names
+    document.getElementById('player1Name').textContent = playerName1;
+    document.getElementById('player2Name').textContent = playerName2;
+
+    // Hide the setup area and show the active player
+    document.getElementById('playerSetup').classList.add('hidden');
+    document.getElementById('player1Name').classList.add('active'); // Assuming X (player 1) starts
+
+    // Clear any previous board (if you're allowing restarts without refreshing)
+    const board = document.getElementById('gameBoard');
+    board.innerHTML = ''; // Removes any existing cells
+    
+    // Create and display the game board
+    createBoard();
+    
+    // Optionally, you might want to hide the 'Start Game' button to prevent restarting without refreshing
+    // document.getElementById('startGame').classList.add('hidden');
+
+    // Show the 'Play Again' button if it should be visible after the game starts
+    // document.getElementById('playAgain').classList.remove('hidden');
+});
+
