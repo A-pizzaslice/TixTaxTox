@@ -7,7 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let playerName2 = '';
 
     function createBoard() {
-        // Create the board cells as before
+    for (let i = 0; i < 9; i++) {
+            let cell = document.createElement('div');
+            cell.classList.add('game-cell');
+            cell.dataset.index = i;
+            cell.addEventListener('click', cellClicked);
+            board.appendChild(cell);
+        }
     }
 
     function startGame() {
@@ -24,7 +30,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function cellClicked() {
-        // ... (existing code remains unchanged)
+    const index = this.dataset.index;
+        if (cells[index] || !gameActive) {
+            return;
+        }
+        cells[index] = currentPlayer;
+        this.textContent = currentPlayer;
+        if (checkWinner()) {
+            alert(${currentPlayer} wins!);
+            gameActive = false;
+            return;
+        }
+        if (checkDraw()) {
+            alert("It's a draw!");
+            gameActive = false;
+            return;
+        }
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
 
         // Toggle highlight between players
         document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
@@ -32,11 +55,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function checkWinner() {
-        // Check for the winner as before
+    const winningCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+        for (const combination of winningCombinations) {
+            const [a, b, c] = combination;
+            if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+                return true;
+            }
+        }
+        return false;
+    }
     }
 
     function checkDraw() {
-        // Check for a draw as before
+      return cells.every(cell => cell !== null);
+    }
     }
 
     window.startGame = startGame; // Make startGame accessible globally
