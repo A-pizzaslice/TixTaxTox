@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cells[index] = currentPlayer;
         this.textContent = currentPlayer;
         if (checkWinner()) {
-            alert(${currentPlayer} wins!);
+            alert(\${currentPlayer} wins!`);
             gameActive = false;
             return;
         }
