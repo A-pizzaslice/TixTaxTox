@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let playerName1 = '';
     let playerName2 = '';
 
+    // ... other functions ...
+
     function createBoard() {
         for (let i = 0; i < 9; i++) {
             let cell = document.createElement('div');
@@ -16,19 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-     function startGame() {
+    function startGame() {
         playerName1 = document.getElementById('player1').value || 'Player 1';
         playerName2 = document.getElementById('player2').value || 'Player 2';
-        // Display player names on top
-        document.getElementById('player1Name').textContent = playerName1;
-        document.getElementById('player2Name').textContent = playerName2;
-        // Highlight the current player
-        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
-        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
         document.getElementById('playerSetup').classList.add('hidden'); // Hide setup
         createBoard();
     }
-
 
     function cellClicked() {
         const index = this.dataset.index;
@@ -37,33 +32,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         cells[index] = currentPlayer;
         this.textContent = currentPlayer;
-        checkGameStatus();
-        switchPlayer();
-    }
+        let winner = checkWinner();
+        let isDraw = checkDraw();
 
-    function switchPlayer() {
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        document.getElementById('player1Name').classList.toggle('active', currentPlayer === 'X');
-        document.getElementById('player2Name').classList.toggle('active', currentPlayer === 'O');
-    }
-
-    function checkGameStatus() {
-        if (checkWinner()) {
-            alert(`${currentPlayer} wins!`);
-            gameActive = false;
-        } else if (checkDraw()) {
-            alert("It's a draw!");
-            gameActive = false;
+        if (winner || isDraw) {
+            setTimeout(() => {
+                if (winner) {
+                    alert(`${currentPlayer === 'X' ? playerName1 : playerName2} wins!`);
+                } else if (isDraw) {
+                    alert("It's a draw!");
+                }
+                document.getElementById('playAgain').style.display = 'block'; // Show play again button
+                gameActive = false;
+            }, 10); // Short delay before alert
         }
-        updatePlayAgainButton();
+
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     }
 
-    function updatePlayAgainButton() {
-        const playAgainButton = document.getElementById('playAgain');
-        playAgainButton.classList.remove('hidden');
-    }
-
-
+    // ... other functions ...
     function checkWinner() {
         const winningCombinations = [
             [0, 1, 2],
@@ -78,39 +65,16 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-                return true
+                return true;
+            }
+        }
+        return false;
+    }
 
     function checkDraw() {
-       // Check if all cells are filled
-    const isBoardFull = cells.every(cell => cell !== null);
-    
-    // If all cells are filled and there's no winner, then it's a draw
-    return isBoardFull && !checkWinner();
-}
+        return cells.every(cell => cell !== null);
+    }
 
-document.getElementById('startGame').addEventListener('click', function() {
-    playerName1 = document.getElementById('player1').value || 'Player 1';
-    playerName2 = document.getElementById('player2').value || 'Player 2';
-    
-    // Update display with player names
-    document.getElementById('player1Name').textContent = playerName1;
-    document.getElementById('player2Name').textContent = playerName2;
 
-    // Hide the setup area and show the active player
-    document.getElementById('playerSetup').classList.add('hidden');
-    document.getElementById('player1Name').classList.add('active'); // Assuming X (player 1) starts
-
-    // Clear any previous board (if you're allowing restarts without refreshing)
-    const board = document.getElementById('gameBoard');
-    board.innerHTML = ''; // Removes any existing cells
-    
-    // Create and display the game board
-    createBoard();
-    
-    // Optionally, you might want to hide the 'Start Game' button to prevent restarting without refreshing
-    // document.getElementById('startGame').classList.add('hidden');
-
-    // Show the 'Play Again' button if it should be visible after the game starts
-    // document.getElementById('playAgain').classList.remove('hidden');
+    window.startGame = startGame; // Make startGame accessible globally
 });
-
