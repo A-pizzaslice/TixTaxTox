@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const board = document.getElementById('gameBoard');
     let cells = Array(9).fill(null);
     let currentPlayer = 'X';
-    let gameActive = true;
+    let gameActive = false;
     let playerName1 = '';
     let playerName2 = '';
     const winAudio = document.getElementById('winAudio'); // Correct reference for audio control
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (isDraw) {
                     alert("It's a draw!");
                 }
-                console.log("Play again button should be visible after this")
+                
                 document.getElementById('playAgain').style.display = 'block';
                 gameActive = false;
             }, 10);
@@ -112,10 +112,10 @@ document.addEventListener('DOMContentLoaded', function() {
         gameActive = true;
         
         createBoard();
-        document.getElementById('playAgain').classList.remove('display'); // Ensure this class is removed when hiding
+        document.getElementById('playAgain').style.display = 'none';
         document.getElementById('winModal').style.display = 'none';
-        document.getElementById('playerInfo').style.display = 'none';
-        document.getElementById('playerSetup').style.display = 'block';
+        document.getElementById('playerInfo').style.display = 'block';
+        updateCurrentPlayer(playerName1);
     }
 
     document.getElementById('startGame').addEventListener('click', startGame);
@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeButton = document.querySelector('.close');
     closeButton.addEventListener('click', function() {
         document.getElementById('winModal').style.display = 'none';
-        resetGame();
+        gameActive = false;
+        document.getElementById('playAgain').style.display = 'block';
     });
 });
