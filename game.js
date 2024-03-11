@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let gameActive = false;
     let playerName1 = '';
     let playerName2 = '';
-    const winAudio = document.getElementById('winAudio'); // Correct reference for audio control
+    const winAudio = document.getElementById('winAudio');
+    const bgMusic = document.getElementById('bgMusic');
 
     function createBoard() {
-        board.innerHTML = ''; // Ensure the board is clear before creating
+        board.innerHTML = '';
+        cells = Array(9).fill(null); // Reset cells for a new game
         for (let i = 0; i < 9; i++) {
             let cell = document.createElement('div');
             cell.classList.add('game-cell');
@@ -25,8 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('playerInfo').style.display = 'block';
         updatePlayerNames();
         updateCurrentPlayer(playerName1);
-        gameActive = true; // Ensure the game is active
-        createBoard(); // Recreate the board each time the game starts
+        gameActive = true;
+        createBoard();
+        bgMusic.play();
     }
 
     function updatePlayerNames() {
@@ -36,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateCurrentPlayer(playerName) {
         document.getElementById('currentPlayer').textContent = `Current turn: ${playerName}`;
-        // Update highlight for current player
         document.getElementById('player1Name').classList.toggle('highlight', playerName === playerName1);
         document.getElementById('player2Name').classList.toggle('highlight', playerName === playerName2);
     }
@@ -47,36 +49,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         cells[index] = currentPlayer;
-    
         let img = document.createElement('img');
-        img.src = currentPlayer === 'X' ? 'yash.jpeg' : 'pritsy.jpeg'; // Ensure these paths are correct
+        img.src = currentPlayer === 'X' ? 'yash.jpeg' : 'pritsy.jpeg';
         img.alt = currentPlayer;
         img.classList.add('player-img');
-    
-        this.innerHTML = '';
         this.appendChild(img);
-    
         let winnerCombination = checkWinner();
         let isDraw = checkDraw();
-    
         if (winnerCombination || isDraw) {
             setTimeout(() => {
+                gameActive = false; // Stop the game
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
                 if (winnerCombination) {
                     const playerName = currentPlayer === 'X' ? playerName1 : playerName2;
                     document.getElementById('winMessage').textContent = `${playerName} Wins!`;
                     document.getElementById('winModal').style.display = 'block';
-                    winAudio.play(); // Attempt to play the win audio
-    
+                    winAudio.play();
                     winnerCombination.forEach(index => {
                         const winningCell = document.querySelector(`.game-cell[data-index='${index}']`);
                         winningCell.classList.add('highlight-win');
                     });
-                } else if (isDraw) {
+                } else {
                     alert("It's a draw!");
                 }
-                
                 document.getElementById('playAgain').style.display = 'block';
-                gameActive = false;
             }, 10);
         } else {
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -106,17 +103,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetGame() {
         winAudio.pause();
         winAudio.currentTime = 0;
-        
-        cells.fill(null);
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+    
+        cells = Array(9).fill(null);
         currentPlayer = 'X';
-        gameActive = true;
-        
+        gameActive = false; // The game should be set to inactive until "Start Game" is clicked again
+    
         createBoard();
         document.getElementById('playAgain').style.display = 'none';
         document.getElementById('winModal').style.display = 'none';
-        document.getElementById('playerInfo').style.display = 'block';
-        updateCurrentPlayer(playerName1);
+        document.getElementById('playerInfo').style.display = 'none'; // Hide player info
+        document.getElementById('playerSetup').style.display = 'block'; // Show player setup for new names
+        document.getElementById('player1').value = ''; // Clear previous player names
+        document.getElementById('player2').value = '';
     }
+    
+    document.getElementById('playAgain').addEventListener('click', resetGame);
+    
 
     document.getElementById('startGame').addEventListener('click', startGame);
     document.getElementById('playAgain').addEventListener('click', resetGame);
@@ -124,7 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeButton = document.querySelector('.close');
     closeButton.addEventListener('click', function() {
         document.getElementById('winModal').style.display = 'none';
-        gameActive = false;
         document.getElementById('playAgain').style.display = 'block';
+        bgMusic.pause(); // Stop background music
+        bgMusic.currentTime = 0;
+        gameActive = false;
     });
 });
